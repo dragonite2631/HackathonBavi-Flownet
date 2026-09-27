@@ -193,11 +193,10 @@ function renderGraph(container: HTMLDivElement, debts: any[], currentUser: strin
     interaction: { hover: true, selectConnectedEdges: true }
   };
   
-  if (networkInstance) {
+  if (networkInstance && (networkInstance as any).__my_container === container) {
     networkInstance.setData(data);
-    return networkInstance;
-  } else {
-    const net = new Network(container, data, options);
+    return networkInstance; } else { if (networkInstance) { networkInstance.destroy(); }
+    const net = new Network(container, data, options); (net as any).__my_container = container;
     if (onSelectNode) {
       net.on('selectNode', (params) => {
         if (params.nodes.length > 0) onSelectNode(params.nodes[0]);
@@ -1419,4 +1418,6 @@ function App() {
 }
 
 export default App;
+
+
 

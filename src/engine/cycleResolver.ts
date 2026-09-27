@@ -45,21 +45,21 @@ function findOneCycle(debts: Debt[]): { cyclePath: string[]; minAmount: number }
   }
 
   if (!cyclePath) return null;
+  const cycle = cyclePath as string[]; // fix TS inference
 
   let minAmount = Infinity;
-  for (let i = 0; i < cyclePath.length; i++) {
-    const from = cyclePath[i];
-    const to = cyclePath[(i + 1) % cyclePath.length];
+  for (let i = 0; i < cycle.length; i++) {
+    const from = cycle[i];
+    const to = cycle[(i + 1) % cycle.length];
     const edge = graph.get(from)!.find(e => e.to === to)!;
     if (edge.amount < minAmount) minAmount = edge.amount;
   }
 
-  return { cyclePath, minAmount };
+  return { cyclePath: cycle, minAmount };
 }
 
 function resolveCycle(debts: Debt[], cyclePath: string[], minAmount: number): { newDebts: Debt[]; step: EngineStep } {
   const newDebts: Debt[] = [];
-  let nextId = Math.max(0, ...debts.map(d => d.id)) + 1;
 
   const cycleEdges = cyclePath.map((node, i) => {
     return { from: node, to: cyclePath[(i + 1) % cyclePath.length] };

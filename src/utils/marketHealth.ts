@@ -43,7 +43,11 @@ export function calculateMarketHealth(debts: Debt[]): MarketHealth {
     }
   });
   
-  riskNodes.sort((a, b) => (a.riskLevel === 'high' ? -1 : 1));
+  riskNodes.sort((a, b) => {
+    if (a.riskLevel === 'high' && b.riskLevel !== 'high') return -1;
+    if (b.riskLevel === 'high' && a.riskLevel !== 'high') return 1;
+    return 0;
+  });
   
   return { totalDebt, totalTransactions: debts.length, nettableAmount, nettablePercent, riskNodes };
 }

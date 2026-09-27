@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { ScrollText, CheckCircle2, AlertCircle, Globe, Bell, SplitSquareHorizontal, User, TrendingUp, TrendingDown, ArrowRight, X, Lightbulb, Store, Map, Package, Utensils, ShieldAlert, BarChart } from 'lucide-react';
+import { ScrollText, CheckCircle2, AlertCircle, Globe, Bell, SplitSquareHorizontal, User, TrendingUp, TrendingDown, ArrowRight, X, Lightbulb, Map, Package, Utensils, ShieldAlert } from 'lucide-react';
 import { Network } from 'vis-network';
 import { DataSet } from 'vis-data';
 
-import type { Debt, PendingDebt, EngineResult, EngineStep, LoopSuggestion, StallInfo, TrustBadge, StallTrustScore, MarketHealth, RiskNode } from './types';
+import type { Debt, EngineResult, LoopSuggestion, StallTrustScore, RiskNode } from './types';
 import { runFullEngine } from './engine/fullEngine';
 import { findLoopClosingOpportunities } from './engine/loopCloser';
 import { STALL_CATALOG } from './data/stallCatalog';
-import { saveDebts, loadDebts, savePending, loadPending, clearStorage, exportData } from './data/storage';
+
 import { calculateTrustScores } from './utils/trustScore';
-import { formatMoney, formatDate, formatFullMoney } from './utils/format';
+import { formatFullMoney } from './utils/format';
 import { calculateMarketHealth } from './utils/marketHealth';
 
 function findAndResolveCycle(debts: { id: number, from: string, to: string, amount: number }[]) {
